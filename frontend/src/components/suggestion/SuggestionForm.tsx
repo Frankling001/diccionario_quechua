@@ -1,16 +1,19 @@
 import { useState } from 'react';
 import type { Suggestion } from '../../types/Suggestion';
-
 interface SuggestionFormProps {
   term: string;
   language: 'es' | 'qu';
   onSubmitSuggestion: (suggestion: Suggestion) => void;
+  feedbackMessage?: string;
+  feedbackType?: 'success' | 'error' | '';
 }
 
 export default function SuggestionForm({
   term,
   language,
   onSubmitSuggestion,
+  feedbackMessage,
+  feedbackType,
 }: SuggestionFormProps) {
   const [suggestedMeaning, setSuggestedMeaning] = useState('');
 
@@ -42,6 +45,12 @@ export default function SuggestionForm({
       />
 
       <button type="submit">Enviar sugerencia</button>
+      {feedbackMessage && (
+  <p className={`feedback-message ${feedbackType}`}>
+    {feedbackMessage}
+  </p>
+)}
+      
     </form>
   );
 }

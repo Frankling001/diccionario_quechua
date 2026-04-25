@@ -89,3 +89,18 @@ html, body, #root {
   opacity: 0.75;
   margin-top: 1rem;
 }
+.feedback-message {
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+}
+
+.feedback-message.success {
+  background: #e7f8ee;
+  color: #166534;
+}
+
+.feedback-message.error {
+  background: #fdecec;
+  color: #991b1b;
+}

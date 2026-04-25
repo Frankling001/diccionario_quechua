@@ -1,46 +1,77 @@
-import { useMemo, useState } from 'react';
-import SearchBar from '../components/search/SearchBar';
-import ResultsList from '../components/results/ResultsList';
-import SuggestionForm from '../components/suggestion/SuggestionForm';
-import { mockWords } from '../data/mockWords';
-import type { Suggestion } from '../types/Suggestion';
-import type { TranslationDirection, Word } from '../types/Word';
+import { useState } from "react";
+import SearchBar from "../components/search/SearchBar";
+import ResultsList from "../components/results/ResultsList";
+import SuggestionForm from "../components/suggestion/SuggestionForm";
+import { sendSuggestion } from "../services/suggestionService";
+import { searchWords } from "../services/wordService";
+import type { Suggestion } from "../types/Suggestion";
+import type { TranslationDirection, Word } from "../types/Word";
+
 
 export default function HomePage() {
-  const [query, setQuery] = useState('');
-  const [direction, setDirection] = useState<TranslationDirection>('es-qu');
+  const [query, setQuery] = useState("");
+  const [direction, setDirection] = useState<TranslationDirection>("es-qu");
   const [searchPerformed, setSearchPerformed] = useState(false);
   const [results, setResults] = useState<Word[]>([]);
-  const [lastSearchTerm, setLastSearchTerm] = useState('');
-  const [lastSearchLanguage, setLastSearchLanguage] = useState<'es' | 'qu'>('es');
+  const [lastSearchTerm, setLastSearchTerm] = useState("");
+  const [lastSearchLanguage, setLastSearchLanguage] = useState<"es" | "qu">("es");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [suggestionFeedback, setSuggestionFeedback] = useState("");
+  const [suggestionFeedbackType, setSuggestionFeedbackType] = useState<"success" | "error" | "">("");
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     const normalizedQuery = query.trim().toLowerCase();
-    const sourceLanguage = direction === 'es-qu' ? 'es' : 'qu';
-    const found = mockWords.filter(
-      (word) => word.language === sourceLanguage && word.term.toLowerCase() === normalizedQuery
-    );
 
-    setSearchPerformed(true);
-    setResults(found);
-    setLastSearchTerm(normalizedQuery);
-    setLastSearchLanguage(sourceLanguage);
+    if (!normalizedQuery) {
+      setError("Escribe una palabra para buscar.");
+      setSearchPerformed(false);
+      setResults([]);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError("");
+
+      const sourceLanguage = direction === "es-qu" ? "es" : "qu";
+      const found = await searchWords(normalizedQuery, direction);
+
+      setSearchPerformed(true);
+      setResults(found);
+      setLastSearchTerm(normalizedQuery);
+      setLastSearchLanguage(sourceLanguage);
+    } catch (err) {
+      setError("No se pudo realizar la búsqueda.");
+      setSearchPerformed(false);
+      setResults([]);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleSuggestionSubmit = (suggestion: Suggestion) => {
-    console.log('Sugerencia enviada:', suggestion);
-    alert('Sugerencia enviada correctamente. Luego la conectaremos al backend.');
-  };
+  const handleSuggestionSubmit = async (suggestion: Suggestion) => {
+  try {
+    await sendSuggestion(suggestion);
+    setSuggestionFeedbackType("success");
+    setSuggestionFeedback("Sugerencia enviada correctamente. Gracias por ayudarnos a mejorar el diccionario.");
+  } catch (error) {
+    setSuggestionFeedbackType("error");
+    setSuggestionFeedback("No se pudo enviar la sugerencia. Intenta nuevamente.");
+  }
 
-  const title = useMemo(() => {
-    return direction === 'es-qu' ? 'Español → Quechua' : 'Quechua → Español';
-  }, [direction]);
+  setTimeout(() => {
+    setSuggestionFeedback("");
+    setSuggestionFeedbackType("");
+  }, 3000);
+};
 
   return (
     <main className="app">
       <h1>Diccionario Quechua - Español</h1>
-      <p>Aplicación web para buscar palabras en Quechua y español</p>
-      <p className="subtitle">{title}</p>
+      <p className="subtitle">
+        {direction === "es-qu" ? "Español → Quechua" : "Quechua → Español"}
+      </p>
 
       <SearchBar
         query={query}
@@ -50,14 +81,19 @@ export default function HomePage() {
         onSearch={handleSearch}
       />
 
+      {loading && <p className="empty-message">Buscando...</p>}
+      {error && <p className="empty-message">{error}</p>}
+
       <section className="content">
         {searchPerformed && results.length > 0 && <ResultsList results={results} />}
 
-        {searchPerformed && results.length === 0 && (
+        {searchPerformed && results.length === 0 && !loading && !error && (
           <SuggestionForm
             term={lastSearchTerm}
             language={lastSearchLanguage}
             onSubmitSuggestion={handleSuggestionSubmit}
+            feedbackMessage={suggestionFeedback}
+            feedbackType={suggestionFeedbackType}
           />
         )}
       </section>
