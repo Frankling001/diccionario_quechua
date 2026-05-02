@@ -24,6 +24,8 @@ async function main() {
       { term: "inti", language: "qu", translation: "sol" },
       { term: "perro", language: "es", translation: "allqu" },
       { term: "allqu", language:"qu", translation: "perro" },
+      { term: "gato", language: "es", translation: "misi" },
+      { term: "misi", language: "qu", translation: "gato" },
     ],
   });
 
