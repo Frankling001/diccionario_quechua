@@ -19,6 +19,7 @@ export default function HomePage() {
   const [error, setError] = useState("");
   const [suggestionFeedback, setSuggestionFeedback] = useState("");
   const [suggestionFeedbackType, setSuggestionFeedbackType] = useState<"success" | "error" | "">("");
+  const [isSubmittingSuggestion, setIsSubmittingSuggestion] = useState(false);
 
   const handleSearch = async () => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -52,12 +53,17 @@ export default function HomePage() {
 
   const handleSuggestionSubmit = async (suggestion: Suggestion) => {
   try {
+    setIsSubmittingSuggestion(true);
     await sendSuggestion(suggestion);
     setSuggestionFeedbackType("success");
-    setSuggestionFeedback("Sugerencia enviada correctamente. Gracias por ayudarnos a mejorar el diccionario.");
+    setSuggestionFeedback(
+      "Sugerencia enviada correctamente. Gracias por ayudarnos a mejorar el diccionario."
+    );
   } catch (error) {
     setSuggestionFeedbackType("error");
     setSuggestionFeedback("No se pudo enviar la sugerencia. Intenta nuevamente.");
+  } finally {
+    setIsSubmittingSuggestion(false);
   }
 
   setTimeout(() => {
@@ -68,7 +74,7 @@ export default function HomePage() {
 
   return (
     <main className="app">
-      <h1>Diccionario Quechua - Español</h1>
+      <h1>Diccionario digital Quechua–Español</h1>
       <p className="subtitle">
         {direction === "es-qu" ? "Español → Quechua" : "Quechua → Español"}
       </p>
@@ -94,6 +100,7 @@ export default function HomePage() {
             onSubmitSuggestion={handleSuggestionSubmit}
             feedbackMessage={suggestionFeedback}
             feedbackType={suggestionFeedbackType}
+            isSubmitting={isSubmittingSuggestion}
           />
         )}
       </section>

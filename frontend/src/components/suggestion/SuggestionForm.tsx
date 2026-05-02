@@ -6,6 +6,7 @@ interface SuggestionFormProps {
   onSubmitSuggestion: (suggestion: Suggestion) => void;
   feedbackMessage?: string;
   feedbackType?: 'success' | 'error' | '';
+  isSubmitting?: boolean;
 }
 
 export default function SuggestionForm({
@@ -14,6 +15,7 @@ export default function SuggestionForm({
   onSubmitSuggestion,
   feedbackMessage,
   feedbackType,
+  isSubmitting,
 }: SuggestionFormProps) {
   const [suggestedMeaning, setSuggestedMeaning] = useState('');
 
@@ -31,7 +33,7 @@ export default function SuggestionForm({
 
   return (
     <form className="suggestion-form" onSubmit={handleSubmit}>
-      <h2>Sugerir palabra</h2>
+      <h2>Sugerir nueva palabra</h2>
 
       <p>
         No encontramos la palabra <strong>{term}</strong> en el diccionario.
@@ -44,7 +46,9 @@ export default function SuggestionForm({
         placeholder="Escribe una sugerencia de significado"
       />
 
-      <button type="submit">Enviar sugerencia</button>
+      <button type="submit" disabled={isSubmitting}>
+  {isSubmitting ? 'Enviando...' : 'Enviar sugerencia'}
+</button>
       {feedbackMessage && (
   <p className={`feedback-message ${feedbackType}`}>
     {feedbackMessage}

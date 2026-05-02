@@ -18,6 +18,8 @@ model Word {
   language    String
   translation String
   createdAt   DateTime @default(now())
+
+  @@unique([term, language])
 }
 
 model Suggestion {
