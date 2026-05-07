@@ -1,0 +1,225 @@
+.admin-panel {
+  background: #fff;
+  border: 2px solid #c4a97d;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.admin-panel__title {
+  color: #4a3728;
+  margin: 0 0 1rem 0;
+  font-size: 1.2rem;
+}
+
+.admin-panel__loading {
+  text-align: center;
+  color: #8b7b6b;
+  padding: 1rem;
+}
+
+.admin-panel__message {
+  background: #f0f7e8;
+  border: 1px solid #b8d9a6;
+  color: #3d5a1e;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.admin-panel__empty {
+  color: #8b7b6b;
+  text-align: center;
+  padding: 1rem;
+}
+
+.admin-panel__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.admin-panel__item {
+  background: #fafaf8;
+  border: 1px solid #e0d5c1;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.admin-panel__item-info strong {
+  color: #2d1810;
+  font-size: 1.1rem;
+}
+
+.admin-panel__item-desc {
+  color: #6b5b4f;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.admin-panel__item-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.admin-panel__edit-btn {
+  background: #f0e6d3;
+  color: #5c4a3a;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.admin-panel__edit-btn:hover {
+  background: #e0d0b8;
+}
+
+.admin-panel__approve-btn {
+  background: #4a6741;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.admin-panel__approve-btn:hover {
+  background: #3a5333;
+}
+
+.admin-panel__cancel-btn {
+  background: transparent;
+  border: 2px solid #c0392b;
+  color: #c0392b;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.admin-panel__cancel-btn:hover {
+  background: #c0392b;
+  color: white;
+}
+
+/* Formulario de edición */
+.admin-panel__edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.admin-panel__edit-header {
+  font-size: 1rem;
+  color: #2d1810;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e0d5c1;
+}
+
+.admin-panel__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.admin-panel__field label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #4a3728;
+}
+
+.admin-panel__field select,
+.admin-panel__field textarea,
+.admin-panel__field input {
+  padding: 0.6rem 0.75rem;
+  border: 2px solid #d4c4a8;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.admin-panel__field select:focus,
+.admin-panel__field textarea:focus,
+.admin-panel__field input:focus {
+  outline: none;
+  border-color: #8b6914;
+}
+
+.admin-panel__example-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  align-items: center;
+}
+
+.admin-panel__example-row input {
+  flex: 1;
+}
+
+.admin-panel__remove-btn {
+  background: #c0392b;
+  color: white;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-panel__remove-btn:hover {
+  background: #a93226;
+}
+
+.admin-panel__add-example {
+  background: transparent;
+  border: 2px dashed #c4a97d;
+  color: #8b6914;
+  padding: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  width: 100%;
+  transition: all 0.2s;
+}
+
+.admin-panel__add-example:hover {
+  background: #fafaf8;
+  border-color: #8b6914;
+}
+
+.admin-panel__edit-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.admin-panel__reject-btn {
+  background: #c0392b;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.admin-panel__reject-btn:hover {
+  background: #a93226;
+}

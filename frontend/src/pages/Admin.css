@@ -1,0 +1,95 @@
+.admin-login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  padding: 2rem;
+}
+
+.admin-login__form {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.admin-login__title {
+  color: #2d1810;
+  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
+}
+
+.admin-login__input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 2px solid #d4c4a8;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.admin-login__input:focus {
+  border-color: #8b6914;
+}
+
+.admin-login__error {
+  color: #c0392b;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.admin-login__btn {
+  width: 100%;
+  padding: 0.85rem;
+  background: #8b6914;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.admin-login__btn:hover {
+  background: #6b4f10;
+}
+
+.admin-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.admin-page__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.admin-page__header h2 {
+  color: #2d1810;
+  font-size: 1.5rem;
+}
+
+.admin-page__logout {
+  background: transparent;
+  border: 2px solid #c0392b;
+  color: #c0392b;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-page__logout:hover {
+  background: #c0392b;
+  color: white;
+}

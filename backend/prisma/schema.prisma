@@ -1,11 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client-js"
-  
 }
 
 datasource db {
@@ -13,19 +7,51 @@ datasource db {
 }
 
 model Word {
-  id          Int      @id @default(autoincrement())
-  term        String
-  language    String
-  translation String
-  createdAt   DateTime @default(now())
+  id          Int        @id @default(autoincrement())
+  quechua     String     @unique
+  spanish     String[]
+  description String?
+  category    Category
+  examples    Example[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 
-  @@unique([term, language])
+  @@index([quechua])
+  @@index([category])
+}
+
+model Example {
+  id       Int    @id @default(autoincrement())
+  quechua  String
+  spanish  String
+  wordId   Int
+  word     Word   @relation(fields: [wordId], references: [id], onDelete: Cascade)
 }
 
 model Suggestion {
-  id               Int      @id @default(autoincrement())
-  term             String
-  language         String
-  suggestedMeaning String?
-  createdAt        DateTime @default(now())
+  id          Int              @id @default(autoincrement())
+  quechua     String
+  spanish     String[]
+  description String?
+  category    Category?
+  status      SuggestionStatus @default(PENDING)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+enum Category {
+  SUSTANTIVO
+  VERBO
+  ADJETIVO
+  ADVERBIO
+  PRONOMBRE
+  PREPOSICION
+  CONJUNCION
+  INTERJECCION
+}
+
+enum SuggestionStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }

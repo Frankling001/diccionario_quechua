@@ -1,15 +1,15 @@
-import { useState } from 'react'
-import './App.css'
-import HomePage from './pages/HomePage'
+import { Home } from "./pages/Home";
+import { Admin } from "./pages/Admin";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const path = window.location.pathname;
 
-  return (
-    <>
-      <HomePage />
-    </>
-  )
+  if (path === "/admin") {
+    return <Admin />;
+  }
+
+  return <Home />;
 }
 
-export default App
+export default App;

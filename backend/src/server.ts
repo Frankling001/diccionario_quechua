@@ -1,7 +1,12 @@
-import app from './app';
+import "dotenv/config";
+import app from "./app";
 
-const PORT = process.env.PORT || 3001;
+const PORT = Number(process.env.PORT) || 3001;
 
-app.listen(PORT, () => {
-  console.log(`Servidor escuchando en http://localhost:${PORT}`);
+const server = app.listen(PORT, () => {
+  console.log(`🚀 Servidor en http://localhost:${PORT}`);
+});
+
+server.on("error", (error) => {
+  console.error("❌ Error al iniciar servidor:", error);
 });

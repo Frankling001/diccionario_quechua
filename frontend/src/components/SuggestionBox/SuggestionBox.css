@@ -1,0 +1,113 @@
+.suggestion-box {
+  background: #fafaf8;
+  border: 2px solid #e0d5c1;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-top: 2.5rem;
+}
+
+.suggestion-box--success {
+  text-align: center;
+  background: #f0f7e8;
+  border-color: #b8d9a6;
+}
+
+.suggestion-box__title {
+  font-size: 1.2rem;
+  color: #4a3728;
+  margin: 0 0 1.5rem 0;
+  font-weight: 600;
+}
+
+.suggestion-box__success-message {
+  font-size: 1.1rem;
+  color: #3d5a1e;
+  margin-bottom: 1rem;
+}
+
+.suggestion-box__add-another {
+  background: transparent;
+  border: 2px solid #8b6914;
+  color: #8b6914;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.suggestion-box__add-another:hover {
+  background: #8b6914;
+  color: white;
+}
+
+.suggestion-box__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.suggestion-box__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.suggestion-box__field label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #4a3728;
+}
+
+.suggestion-box__field input,
+.suggestion-box__field textarea {
+  padding: 0.75rem 1rem;
+  border: 2px solid #d4c4a8;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+
+.suggestion-box__field input:focus,
+.suggestion-box__field textarea:focus {
+  outline: none;
+  border-color: #8b6914;
+}
+
+.suggestion-box__field small {
+  color: #8b7b6b;
+  font-size: 0.8rem;
+}
+
+.suggestion-box__error {
+  color: #c0392b;
+  font-size: 0.9rem;
+  margin: 0;
+  padding: 0.5rem;
+  background: #fde8e8;
+  border-radius: 6px;
+}
+
+.suggestion-box__submit {
+  padding: 0.85rem 1.5rem;
+  background: #4a6741;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  align-self: flex-start;
+}
+
+.suggestion-box__submit:hover:not(:disabled) {
+  background: #3a5333;
+}
+
+.suggestion-box__submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

@@ -5,36 +5,59 @@ import { PrismaPg } from "@prisma/adapter-pg";
 const connectionString = process.env.DATABASE_URL;
 
 if (!connectionString) {
-  throw new Error("DATABASE_URL no está definida");
+  throw new Error("❌ DATABASE_URL no está definida en seed");
 }
 
-const adapter = new PrismaPg({ connectionString });
-const prisma = new PrismaClient({ adapter });
+const prisma = new PrismaClient({
+  adapter: new PrismaPg({
+    connectionString,
+  }),
+});
 
 async function main() {
+  console.log("🌱 Iniciando seed...");
+
+  // 🔥 limpiar en orden correcto
+  await prisma.example.deleteMany();
   await prisma.suggestion.deleteMany();
   await prisma.word.deleteMany();
-  await prisma.word.createMany({
-    data: [
-      { term: "casa", language: "es", translation: "wasi" },
-      { term: "agua", language: "es", translation: "yaku" },
-      { term: "sol", language: "es", translation: "inti" },
-      { term: "wasi", language: "qu", translation: "casa" },
-      { term: "yaku", language: "qu", translation: "agua" },
-      { term: "inti", language: "qu", translation: "sol" },
-      { term: "perro", language: "es", translation: "allqu" },
-      { term: "allqu", language:"qu", translation: "perro" },
-      { term: "gato", language: "es", translation: "misi" },
-      { term: "misi", language: "qu", translation: "gato" },
-    ],
+
+  // ✅ insertar datos
+  await prisma.word.create({
+    data: {
+      quechua: "yaku",
+      spanish: ["agua"],
+      category: "SUSTANTIVO",
+      description: "Líquido esencial para la vida",
+      examples: {
+        create: [
+          {
+            quechua: "Yaku mikuni",
+            spanish: "Yo bebo agua",
+          },
+          {
+            quechua: "Yakuqa kawsaymi",
+            spanish: "El agua es vida",
+          },
+        ],
+      },
+    },
   });
 
-  console.log("Datos de prueba insertados correctamente.");
+  await prisma.word.create({
+    data: {
+      quechua: "wasi",
+      spanish: ["casa", "hogar"],
+      category: "SUSTANTIVO",
+    },
+  });
+
+  console.log("✅ Seed ejecutado correctamente");
 }
 
 main()
   .catch((e) => {
-    console.error(e);
+    console.error("❌ Error en seed:", e);
     process.exit(1);
   })
   .finally(async () => {

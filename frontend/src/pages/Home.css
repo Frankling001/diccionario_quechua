@@ -1,0 +1,38 @@
+.home {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.home__header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.home__title {
+  font-size: 2rem;
+  color: #2d1810;
+  margin: 0 0 0.5rem 0;
+  font-weight: 700;
+}
+
+.home__subtitle {
+  color: #6b5b4f;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.home__content {
+  margin-top: 1.5rem;
+}
+
+.home__loading {
+  text-align: center;
+  padding: 2rem;
+  color: #6b5b4f;
+  font-size: 1.1rem;
+}
+
+.home__results {
+  margin-bottom: 0.5rem;
+}
