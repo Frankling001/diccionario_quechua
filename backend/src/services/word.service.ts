@@ -31,9 +31,7 @@ export const createWord = async (data: any) => {
   return prisma.word.create({
     data: {
       quechua: data.quechua.trim().toLowerCase(),
-      spanish: data.spanish.map((s: string) =>
-        s.trim().toLowerCase()
-      ),
+      spanish: data.spanish.map((s: string) => s.trim().toLowerCase()),
       category: data.category,
       examples: data.examples
         ? { create: data.examples }

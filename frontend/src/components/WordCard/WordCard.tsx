@@ -3,18 +3,36 @@ import "./WordCard.css";
 
 interface WordCardProps {
   word: Word;
+  searchQuery: string;
 }
 
-export function WordCard({ word }: WordCardProps) {
+export function WordCard({ word, searchQuery }: WordCardProps) {
+  const isSpanishSearch = word.spanish.some((s) =>
+    s.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Si busca en español, el título es el español, sino el quechua
+  const title = isSpanishSearch
+    ? word.spanish.find((s) => s.toLowerCase().includes(searchQuery.toLowerCase())) || word.spanish[0]
+    : word.quechua;
+
+  // Las traducciones son lo contrario
+  const translations = isSpanishSearch ? [word.quechua] : word.spanish;
+
   return (
     <article className="word-card">
       <header className="word-card__header">
-        <h2 className="word-card__quechua">{word.quechua}</h2>
-        <span className="word-card__category">{word.category}</span>
+        <div className="word-card__title-row">
+          <h2 className="word-card__title">{title}</h2>
+          <span className="word-card__lang-tag">
+            {isSpanishSearch ? "Español → Quechua" : "Quechua → Español"}
+          </span>
+        </div>
+        <span className="word-card__category">{word.category.toLowerCase()}</span>
       </header>
 
       <div className="word-card__meanings">
-        {word.spanish.map((meaning, index) => (
+        {translations.map((meaning, index) => (
           <span key={index} className="word-card__meaning">
             {meaning}
           </span>

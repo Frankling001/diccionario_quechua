@@ -5,18 +5,17 @@
   padding: 1.5rem;
   margin-bottom: 1rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  transition: box-shadow 0.2s;
-}
-
-.word-card:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .word-card__header {
-  display: flex;
-  align-items: baseline;
-  gap: 1rem;
   margin-bottom: 1rem;
+}
+
+.word-card__title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
   flex-wrap: wrap;
 }
 
@@ -27,6 +26,15 @@
   margin: 0;
 }
 
+.word-card__lang-tag {
+  background: #e8f0e3;
+  color: #4a6741;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
 .word-card__category {
   background: #f0e6d3;
   color: #5c4a3a;
@@ -34,7 +42,6 @@
   border-radius: 20px;
   font-size: 0.85rem;
   font-weight: 500;
-  text-transform: lowercase;
 }
 
 .word-card__meanings {

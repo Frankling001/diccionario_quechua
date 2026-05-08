@@ -35,7 +35,7 @@ export function Home() {
         {showResults && (
           <div className="home__results">
             {results.map((word) => (
-              <WordCard key={word.id} word={word} />
+              <WordCard key={word.id} word={word} searchQuery={query} />
             ))}
           </div>
         )}
