@@ -1,113 +1,142 @@
 .suggestion-box {
-  background: #fafaf8;
-  border: 2px solid #e0d5c1;
-  border-radius: 12px;
-  padding: 2rem;
-  margin-top: 2.5rem;
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-top: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
 }
 
 .suggestion-box--success {
   text-align: center;
-  background: #f0f7e8;
-  border-color: #b8d9a6;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border-color: #86efac;
 }
 
 .suggestion-box__title {
-  font-size: 1.2rem;
-  color: #4a3728;
-  margin: 0 0 1.5rem 0;
+  font-size: 1.25rem;
   font-weight: 600;
-}
-
-.suggestion-box__success-message {
-  font-size: 1.1rem;
-  color: #3d5a1e;
-  margin-bottom: 1rem;
-}
-
-.suggestion-box__add-another {
-  background: transparent;
-  border: 2px solid #8b6914;
-  color: #8b6914;
-  padding: 0.6rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.suggestion-box__add-another:hover {
-  background: #8b6914;
-  color: white;
+  color: #1f2937;
+  margin-bottom: 20px;
 }
 
 .suggestion-box__form {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 20px;
 }
 
 .suggestion-box__field {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 8px;
 }
 
 .suggestion-box__field label {
-  font-weight: 600;
-  font-size: 0.9rem;
-  color: #4a3728;
+  font-weight: 500;
+  color: #374151;
+  font-size: 0.875rem;
 }
 
 .suggestion-box__field input,
+.suggestion-box__field select,
 .suggestion-box__field textarea {
-  padding: 0.75rem 1rem;
-  border: 2px solid #d4c4a8;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-family: inherit;
-  resize: vertical;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background-color: white;
 }
 
 .suggestion-box__field input:focus,
+.suggestion-box__field select:focus,
 .suggestion-box__field textarea:focus {
   outline: none;
   border-color: #8b6914;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
 }
 
 .suggestion-box__field small {
-  color: #8b7b6b;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
+  color: #6b7280;
 }
 
 .suggestion-box__error {
-  color: #c0392b;
-  font-size: 0.9rem;
+  color: #dc2626;
+  font-size: 0.875rem;
+  padding: 8px 12px;
+  background: #fef2f2;
+  border-radius: 8px;
   margin: 0;
-  padding: 0.5rem;
-  background: #fde8e8;
-  border-radius: 6px;
 }
 
 .suggestion-box__submit {
-  padding: 0.85rem 1.5rem;
-  background: #4a6741;
+  background: #8b6914;
   color: white;
   border: none;
+  padding: 12px 20px;
   border-radius: 8px;
-  font-size: 1rem;
   font-weight: 600;
+  font-size: 0.875rem;
   cursor: pointer;
-  transition: background 0.2s;
-  align-self: flex-start;
+  transition: background-color 0.2s;
+  margin-top: 8px;
 }
 
 .suggestion-box__submit:hover:not(:disabled) {
-  background: #3a5333;
+  background: #8b6914;
 }
 
 .suggestion-box__submit:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.suggestion-box__success-message {
+  font-size: 1rem;
+  margin-bottom: 16px;
+  color: #166534;
+}
+
+.suggestion-box__add-another {
+  background: transparent;
+  border: 1px solid #86efac;
+  color: #166534;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.suggestion-box__add-another:hover {
+  background: #dcfce7;
+}
+
+/* Estilos para el select y sus opciones */
+.suggestion-box__field select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .suggestion-box {
+    padding: 16px;
+  }
+
+  .suggestion-box__title {
+    font-size: 1.125rem;
+  }
+
+  .suggestion-box__field input,
+  .suggestion-box__field select,
+  .suggestion-box__field textarea {
+    font-size: 16px;
+  }
 }

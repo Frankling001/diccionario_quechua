@@ -1,15 +1,25 @@
 import { useState, type FormEvent } from "react";
 import type { CreateSuggestionDTO } from "../../types";
+import { Category } from "../../types";
 import "./SuggestionBox.css";
 
 interface SuggestionBoxProps {
   onSubmitSuggestion: (suggestion: CreateSuggestionDTO) => Promise<boolean>;
 }
 
+// Función para formatear nombres de categorías
+const formatCategoryName = (category: string): string => {
+  return category
+    .toLowerCase()
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (l) => l.toUpperCase());
+};
+
 export function SuggestionBox({ onSubmitSuggestion }: SuggestionBoxProps) {
   const [quechua, setQuechua] = useState("");
   const [spanish, setSpanish] = useState("");
   const [description, setDescription] = useState("");
+  const [category, setCategory] = useState<Category | "">("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -29,6 +39,7 @@ export function SuggestionBox({ onSubmitSuggestion }: SuggestionBoxProps) {
       quechua: quechua.trim(),
       spanish: spanish.split(",").map((s) => s.trim()).filter(Boolean),
       description: description.trim() || undefined,
+      category: category || undefined,
     });
 
     setLoading(false);
@@ -38,6 +49,7 @@ export function SuggestionBox({ onSubmitSuggestion }: SuggestionBoxProps) {
       setQuechua("");
       setSpanish("");
       setDescription("");
+      setCategory("");
     } else {
       setError("Error al enviar. Intenta de nuevo.");
     }
@@ -89,6 +101,23 @@ export function SuggestionBox({ onSubmitSuggestion }: SuggestionBoxProps) {
             required
           />
           <small>Separa múltiples significados con comas</small>
+        </div>
+
+        <div className="suggestion-box__field">
+          <label htmlFor="category">Categoría gramatical (opcional)</label>
+          <select
+            id="category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value as Category | "")}
+          >
+            <option value="">Seleccionar categoría...</option>
+            {Object.values(Category).map((cat) => (
+              <option key={cat} value={cat}>
+                {formatCategoryName(cat)}
+              </option>
+            ))}
+          </select>
+          <small>Ayuda a clasificar mejor la palabra</small>
         </div>
 
         <div className="suggestion-box__field">

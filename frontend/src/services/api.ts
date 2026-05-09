@@ -29,11 +29,11 @@ export const wordApi = {
     return handleResponse<Word[]>(response);
   },
 
-  search: async (query: string): Promise<Word[]> => {
+  search: async (query: string): Promise<{ results: Word[]; query: string; exactMatch: boolean; total: number }> => {
     const response = await fetch(
       `${API_URL}/api/words/search?q=${encodeURIComponent(query)}`
     );
-    return handleResponse<Word[]>(response);
+    return handleResponse<{ results: Word[]; query: string; exactMatch: boolean; total: number }>(response);
   },
 
   create: async (word: CreateWordDTO): Promise<Word> => {
@@ -76,7 +76,8 @@ export const suggestionApi = {
     return handleResponse<Suggestion>(response);
   },
 
-  approve: async (id: number, examples?: { quechua: string; spanish: string }[]): Promise<void> => {
+  // ✅ CORREGIDO: Retorna un objeto con message y data
+  approve: async (id: number, examples?: { quechua: string; spanish: string }[]): Promise<{ message: string; data: Word }> => {
     const response = await fetch(`${API_URL}/api/suggestions/${id}/approve`, {
       method: "PUT",
       headers: {
@@ -84,13 +85,13 @@ export const suggestionApi = {
       },
       body: JSON.stringify({ examples: examples || [] }),
     });
-    return handleResponse<void>(response);
+    return handleResponse<{ message: string; data: Word }>(response);
   },
 
-  reject: async (id: number): Promise<void> => {
+  reject: async (id: number): Promise<{ message: string; data: Suggestion }> => {
     const response = await fetch(`${API_URL}/api/suggestions/${id}/reject`, {
       method: "PUT",
     });
-    return handleResponse<void>(response);
+    return handleResponse<{ message: string; data: Suggestion }>(response);
   },
 };

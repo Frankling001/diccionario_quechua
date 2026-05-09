@@ -9,6 +9,30 @@ interface ExampleInput {
   spanish: string;
 }
 
+// Mapeo de categorías con nombres legibles
+const categoryNames: Record<string, string> = {
+  SUSTANTIVO: "Sustantivo",
+  VERBO: "Verbo",
+  VERBO_REFLEXIVO: "Verbo Reflexivo",
+  VERBO_TRANSITIVO: "Verbo Transitivo",
+  VERBO_INTRANSITIVO: "Verbo Intransitivo",
+  VERBO_RECIPROCO: "Verbo Recíproco",
+  ADJETIVO: "Adjetivo",
+  ADVERBIO: "Adverbio",
+  PRONOMBRE: "Pronombre",
+  PREPOSICION: "Preposición",
+  CONJUNCION: "Conjunción",
+  INTERJECCION: "Interjección",
+  ONOMATOPEYA: "Onomatopeya",
+  EXPRESION: "Expresión",
+  PARTICULA: "Partícula",
+};
+
+// Función para formatear nombre de categoría
+const formatCategoryName = (category: string): string => {
+  return categoryNames[category] || category.replace(/_/g, " ").toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
+};
+
 export function AdminPanel() {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [loading, setLoading] = useState(true);
@@ -16,6 +40,7 @@ export function AdminPanel() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editData, setEditData] = useState<UpdateSuggestionDTO>({});
   const [examples, setExamples] = useState<ExampleInput[]>([]);
+  const [approving, setApproving] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -89,6 +114,7 @@ export function AdminPanel() {
   };
 
   const handleSaveAndApprove = async (id: number, quechua: string) => {
+    setApproving(true);
     try {
       const updateData: UpdateSuggestionDTO = {
         description: editData.description || undefined,
@@ -97,7 +123,12 @@ export function AdminPanel() {
 
       const validExamples = examples.filter((ex) => ex.quechua && ex.spanish);
 
-      await suggestionApi.update(id, updateData);
+      // Actualizar la sugerencia si hay cambios
+      if (updateData.description || updateData.category) {
+        await suggestionApi.update(id, updateData);
+      }
+
+      // Aprobar la sugerencia (sin guardar el resultado si no lo necesitas)
       await suggestionApi.approve(id, validExamples);
 
       setMessage(`✅ "${quechua}" aprobada y agregada al diccionario`);
@@ -111,12 +142,15 @@ export function AdminPanel() {
     } catch (err) {
       console.error("Error aprobando:", err);
       setMessage("❌ Error al aprobar");
+    } finally {
+      setApproving(false);
     }
   };
 
   const handleReject = async (id: number, quechua: string) => {
     if (!confirm(`¿Rechazar "${quechua}"?`)) return;
     
+    setApproving(true);
     try {
       await suggestionApi.reject(id);
       setMessage(`❌ "${quechua}" rechazada`);
@@ -125,6 +159,8 @@ export function AdminPanel() {
     } catch (err) {
       console.error("Error rechazando:", err);
       setMessage("❌ Error al rechazar");
+    } finally {
+      setApproving(false);
     }
   };
 
@@ -171,11 +207,12 @@ export function AdminPanel() {
                           category: e.target.value as Category,
                         })
                       }
+                      disabled={approving}
                     >
                       <option value="">Seleccionar...</option>
                       {Object.values(Category).map((cat) => (
                         <option key={cat} value={cat}>
-                          {cat}
+                          {formatCategoryName(cat)}
                         </option>
                       ))}
                     </select>
@@ -193,6 +230,7 @@ export function AdminPanel() {
                       }
                       placeholder="Descripción de la palabra..."
                       rows={2}
+                      disabled={approving}
                     />
                   </div>
 
@@ -210,6 +248,7 @@ export function AdminPanel() {
                           onChange={(e) =>
                             updateExample(i, "quechua", e.target.value)
                           }
+                          disabled={approving}
                         />
                         <input
                           placeholder="Español"
@@ -217,11 +256,13 @@ export function AdminPanel() {
                           onChange={(e) =>
                             updateExample(i, "spanish", e.target.value)
                           }
+                          disabled={approving}
                         />
                         <button
                           type="button"
                           className="admin-panel__remove-btn"
                           onClick={() => removeExample(i)}
+                          disabled={approving}
                         >
                           ✕
                         </button>
@@ -232,6 +273,7 @@ export function AdminPanel() {
                       type="button"
                       className="admin-panel__add-example"
                       onClick={addExample}
+                      disabled={approving}
                     >
                       + Agregar ejemplo
                     </button>
@@ -243,13 +285,15 @@ export function AdminPanel() {
                       onClick={() =>
                         handleSaveAndApprove(sug.id, sug.quechua)
                       }
+                      disabled={approving}
                     >
-                      ✅ Guardar y aprobar
+                      {approving ? "Aprobando..." : "✅ Guardar y aprobar"}
                     </button>
 
                     <button
                       className="admin-panel__cancel-btn"
                       onClick={handleCancelEdit}
+                      disabled={approving}
                     >
                       Cancelar
                     </button>
@@ -260,6 +304,12 @@ export function AdminPanel() {
                   <div className="admin-panel__item-info">
                     <strong>{sug.quechua}</strong> →{" "}
                     {sug.spanish.join(", ")}
+
+                    {sug.category && (
+                      <span className="admin-panel__item-category">
+                        Categoría: {formatCategoryName(sug.category)}
+                      </span>
+                    )}
 
                     {sug.description && (
                       <p className="admin-panel__item-desc">
@@ -272,6 +322,7 @@ export function AdminPanel() {
                     <button
                       className="admin-panel__edit-btn"
                       onClick={() => handleEdit(sug)}
+                      disabled={approving}
                     >
                       ✏️ Editar
                     </button>
@@ -281,13 +332,15 @@ export function AdminPanel() {
                       onClick={() =>
                         handleSaveAndApprove(sug.id, sug.quechua)
                       }
+                      disabled={approving}
                     >
-                      ✅ Aprobar
+                      {approving ? "..." : "✅ Aprobar"}
                     </button>
 
                     <button
                       className="admin-panel__reject-btn"
                       onClick={() => handleReject(sug.id, sug.quechua)}
+                      disabled={approving}
                     >
                       ❌ Rechazar
                     </button>

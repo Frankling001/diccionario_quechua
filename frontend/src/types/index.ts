@@ -1,12 +1,19 @@
 export const Category = {
   SUSTANTIVO: "SUSTANTIVO",
   VERBO: "VERBO",
+  VERBO_REFLEXIVO: "VERBO_REFLEXIVO",
+  VERBO_TRANSITIVO: "VERBO_TRANSITIVO",
+  VERBO_INTRANSITIVO: "VERBO_INTRANSITIVO",
+  VERBO_RECIPROCO: "VERBO_RECIPROCO",
   ADJETIVO: "ADJETIVO",
   ADVERBIO: "ADVERBIO",
   PRONOMBRE: "PRONOMBRE",
   PREPOSICION: "PREPOSICION",
   CONJUNCION: "CONJUNCION",
   INTERJECCION: "INTERJECCION",
+  ONOMATOPEYA: "ONOMATOPEYA",
+  EXPRESION: "EXPRESION",
+  PARTICULA: "PARTICULA",
 } as const;
 
 export type Category = (typeof Category)[keyof typeof Category];
@@ -35,6 +42,9 @@ export interface Word {
   examples: Example[];
   createdAt: string;
   updatedAt: string;
+  displayTitle?: string;
+  isExactMatch?: boolean;
+  isGrouped?: boolean;
 }
 
 export interface Suggestion {
@@ -63,6 +73,7 @@ export interface CreateSuggestionDTO {
   quechua: string;
   spanish: string[];
   description?: string;
+  category?: Category;
 }
 
 export interface UpdateSuggestionDTO {
