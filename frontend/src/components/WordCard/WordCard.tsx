@@ -6,7 +6,6 @@ interface WordCardProps {
   searchQuery: string;
 }
 
-// Mapeo de categorías con nombres legibles
 const categoryNames: Record<string, string> = {
   SUSTANTIVO: "Sustantivo",
   VERBO: "Verbo",
@@ -25,7 +24,6 @@ const categoryNames: Record<string, string> = {
   PARTICULA: "Partícula",
 };
 
-// Colores para cada categoría
 const getCategoryColor = (category: string): string => {
   const colors: Record<string, string> = {
     SUSTANTIVO: "#93b3e6",
@@ -48,18 +46,30 @@ const getCategoryColor = (category: string): string => {
 };
 
 export function WordCard({ word, searchQuery }: WordCardProps) {
-  const isSpanishSearch = word.spanish.some((s) =>
-    s.toLowerCase().includes(searchQuery.toLowerCase())
+  const lowerQuery = searchQuery.toLowerCase();
+  
+  // Buscar en arrays de quechua y spanish
+  const matchedQuechua = word.quechua.find(q => 
+    q.toLowerCase().includes(lowerQuery)
   );
-
-  // Si busca en español, el título es el español, sino el quechua
-  const title = isSpanishSearch
-    ? word.spanish.find((s) => s.toLowerCase().includes(searchQuery.toLowerCase())) || word.spanish[0]
-    : word.quechua;
-
+  const matchedSpanish = word.spanish.find(s => 
+    s.toLowerCase().includes(lowerQuery)
+  );
+  
+  const isSpanishSearch = !!matchedSpanish;
+  const isQuechuaSearch = !!matchedQuechua;
+  
+  // ✅ Determinar el título según lo que coincidió (ahora directamente asignado)
+  const title = isSpanishSearch && matchedSpanish
+    ? matchedSpanish
+    : isQuechuaSearch && matchedQuechua
+      ? matchedQuechua
+      : word.quechua[0] || word.spanish[0];
+  
   // Las traducciones son lo contrario
-  const translations = isSpanishSearch ? [word.quechua] : word.spanish;
-
+  const translations = isSpanishSearch ? word.quechua : word.spanish;
+  
+  const langTag = isSpanishSearch ? "Español → Quechua" : "Quechua → Español";
   const categoryDisplayName = categoryNames[word.category] || word.category;
   const categoryColor = getCategoryColor(word.category);
 
@@ -68,9 +78,7 @@ export function WordCard({ word, searchQuery }: WordCardProps) {
       <header className="word-card__header">
         <div className="word-card__title-row">
           <h2 className="word-card__title">{title}</h2>
-          <span className="word-card__lang-tag">
-            {isSpanishSearch ? "Español → Quechua" : "Quechua → Español"}
-          </span>
+          <span className="word-card__lang-tag">{langTag}</span>
         </div>
         <span 
           className="word-card__category"

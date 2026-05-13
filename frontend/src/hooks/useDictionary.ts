@@ -8,6 +8,7 @@ export function useDictionary() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
+  const [hasExactMatch, setHasExactMatch] = useState(false);
 
   const search = useCallback(async (searchQuery: string) => {
     const trimmed = searchQuery.trim();
@@ -15,6 +16,7 @@ export function useDictionary() {
     if (!trimmed) {
       setResults([]);
       setHasSearched(false);
+      setHasExactMatch(false);
       return;
     }
 
@@ -24,11 +26,13 @@ export function useDictionary() {
     setHasSearched(true);
 
     try {
-      const data = await wordApi.search(trimmed);
-      setResults(data);
+      const response = await wordApi.search(trimmed);
+      setResults(response.results);
+      setHasExactMatch(response.exactMatch);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error al buscar");
       setResults([]);
+      setHasExactMatch(false);
     } finally {
       setLoading(false);
     }
@@ -53,6 +57,7 @@ export function useDictionary() {
     loading,
     error,
     hasSearched,
+    hasExactMatch,
     search,
     submitSuggestion,
   };

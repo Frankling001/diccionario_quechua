@@ -6,10 +6,17 @@ import { SuggestionBox } from "../components/SuggestionBox/SuggestionBox";
 import "./Home.css";
 
 export function Home() {
-  const { query, results, loading, hasSearched, search, submitSuggestion } =
-    useDictionary();
+  const { 
+    query, 
+    results, 
+    loading, 
+    hasSearched, 
+    hasExactMatch,
+    search, 
+    submitSuggestion 
+  } = useDictionary();
 
-  const showEmpty = hasSearched && !loading && results.length === 0;
+  const showNoResults = hasSearched && !loading && results.length === 0;
   const showResults = results.length > 0;
 
   return (
@@ -30,14 +37,30 @@ export function Home() {
           </div>
         )}
 
-        {showEmpty && <EmptyState query={query} />}
+        {/* No hay ningún resultado */}
+        {showNoResults && (
+          <EmptyState query={query} />
+        )}
 
+        {/* Hay resultados */}
         {showResults && (
-          <div className="home__results">
-            {results.map((word) => (
-              <WordCard key={word.id} word={word} searchQuery={query} />
-            ))}
-          </div>
+          <>
+            {/* Mostrar mensaje si no hay coincidencia exacta pero hay parciales */}
+            {!hasExactMatch && (
+              <div className="home__no-exact-match-warning">
+                <p className="home__warning-message">
+                  ⚠️ No se encontró una coincidencia exacta para "{query}". 
+                  Mostrando palabras relacionadas:
+                </p>
+              </div>
+            )}
+            
+            <div className="home__results">
+              {results.map((word) => (
+                <WordCard key={word.id} word={word} searchQuery={query} />
+              ))}
+            </div>
+          </>
         )}
 
         <SuggestionBox onSubmitSuggestion={submitSuggestion} />

@@ -8,16 +8,16 @@ datasource db {
 
 model Word {
   id          Int        @id @default(autoincrement())
-  quechua     String     @unique
-  spanish     String[]
-  description String?
+  quechua     String[]   // ✅ Cambiado de String a String[]
+  spanish     String[]   
   category    Category
+  description String?
   examples    Example[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 
-  @@index([quechua])
-  @@index([category])
+  @@index([quechua])  // Prisma indexa automáticamente arrays
+  @@index([spanish])
 }
 
 model Example {
@@ -30,8 +30,8 @@ model Example {
 
 model Suggestion {
   id          Int              @id @default(autoincrement())
-  quechua     String
-  spanish     String[]
+  quechua     String[]         // ✅ Cambiado
+  spanish     String[]         // ✅ Cambiado
   description String?
   category    Category?
   status      SuggestionStatus @default(PENDING)

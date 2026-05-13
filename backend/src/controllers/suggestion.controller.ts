@@ -1,9 +1,16 @@
 import { Request, Response } from "express";
 import * as suggestionService from "../services/suggestion.service";
 
+// Helper para obtener ID de params
+const getIntId = (id: string | string[] | undefined): number | null => {
+  if (!id) return null;
+  const parsed = typeof id === 'string' ? parseInt(id) : parseInt(id[0]);
+  return isNaN(parsed) ? null : parsed;
+};
+
 export const createSuggestion = async (req: Request, res: Response) => {
   try {
-    const { quechua, spanish } = req.body;
+    const { quechua, spanish, description, category } = req.body;
 
     if (!quechua || !Array.isArray(spanish) || spanish.length === 0) {
       return res.status(400).json({ 
@@ -11,7 +18,13 @@ export const createSuggestion = async (req: Request, res: Response) => {
       });
     }
 
-    const newSuggestion = await suggestionService.createSuggestion(req.body);
+    const newSuggestion = await suggestionService.createSuggestion({
+      quechua,
+      spanish,
+      description,
+      category
+    });
+    
     res.status(201).json(newSuggestion);
   } catch (error) {
     console.error(error);
@@ -21,12 +34,12 @@ export const createSuggestion = async (req: Request, res: Response) => {
 
 export const updateSuggestion = async (req: Request, res: Response) => {
   try {
-    const id = parseInt(req.params.id as string);
+    const id = getIntId(req.params.id);
     
-    if (isNaN(id)) {
+    if (!id) {
       return res.status(400).json({ message: "ID inválido" });
     }
-
+    
     const updated = await suggestionService.updateSuggestion(id, req.body);
     res.json(updated);
   } catch (error) {
@@ -37,16 +50,19 @@ export const updateSuggestion = async (req: Request, res: Response) => {
 
 export const approveSuggestion = async (req: Request, res: Response) => {
   try {
-    const id = parseInt(req.params.id as string);
+    const id = getIntId(req.params.id);
     
-    if (isNaN(id)) {
+    if (!id) {
       return res.status(400).json({ message: "ID inválido" });
     }
-
+    
     const { examples = [] } = req.body;
 
-    const approved = await suggestionService.approveSuggestion(id, examples);
-    res.json({ message: "Sugerencia aprobada y movida a palabras", data: approved });
+    const newWord = await suggestionService.approveSuggestion(id, examples);
+    res.json({ 
+      message: "Sugerencia aprobada y movida a palabras", 
+      data: newWord 
+    });
   } catch (error: any) {
     if (error.message === "Sugerencia no encontrada") {
       return res.status(404).json({ message: error.message });
@@ -68,12 +84,12 @@ export const getPendingSuggestions = async (_req: Request, res: Response) => {
 
 export const rejectSuggestion = async (req: Request, res: Response) => {
   try {
-    const id = parseInt(req.params.id as string);
+    const id = getIntId(req.params.id);
     
-    if (isNaN(id)) {
+    if (!id) {
       return res.status(400).json({ message: "ID inválido" });
     }
-
+    
     const rejected = await suggestionService.rejectSuggestion(id);
     res.json({ message: "Sugerencia rechazada", data: rejected });
   } catch (error) {

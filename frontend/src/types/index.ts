@@ -1,3 +1,6 @@
+// Tipos para el diccionario Quechua
+
+// ✅ Usar objetos const en lugar de enums
 export const Category = {
   SUSTANTIVO: "SUSTANTIVO",
   VERBO: "VERBO",
@@ -16,7 +19,7 @@ export const Category = {
   PARTICULA: "PARTICULA",
 } as const;
 
-export type Category = (typeof Category)[keyof typeof Category];
+export type Category = typeof Category[keyof typeof Category];
 
 export const SuggestionStatus = {
   PENDING: "PENDING",
@@ -24,7 +27,7 @@ export const SuggestionStatus = {
   REJECTED: "REJECTED",
 } as const;
 
-export type SuggestionStatus = (typeof SuggestionStatus)[keyof typeof SuggestionStatus];
+export type SuggestionStatus = typeof SuggestionStatus[keyof typeof SuggestionStatus];
 
 export interface Example {
   id: number;
@@ -35,61 +38,52 @@ export interface Example {
 
 export interface Word {
   id: number;
-  quechua: string;
+  quechua: string[];
   spanish: string[];
-  description?: string | null;
+  description?: string;
   category: Category;
   examples: Example[];
   createdAt: string;
   updatedAt: string;
-  displayTitle?: string;
-  isExactMatch?: boolean;
-  isGrouped?: boolean;
 }
 
 export interface Suggestion {
   id: number;
-  quechua: string;
+  quechua: string[];
   spanish: string[];
-  description?: string | null;
-  category?: Category | null;
+  description?: string;
+  category?: Category;
   status: SuggestionStatus;
   createdAt: string;
   updatedAt: string;
 }
 
 export interface CreateWordDTO {
-  quechua: string;
+  quechua: string | string[];
   spanish: string[];
-  description?: string;
   category: Category;
-  examples?: {
-    quechua: string;
-    spanish: string;
-  }[];
+  description?: string;
+  examples?: Omit<Example, "id" | "wordId">[];
 }
 
 export interface CreateSuggestionDTO {
-  quechua: string;
+  quechua: string | string[];
   spanish: string[];
   description?: string;
   category?: Category;
 }
 
 export interface UpdateSuggestionDTO {
+  quechua?: string[];
+  spanish?: string[];
   description?: string;
   category?: Category;
-  examples?: {
-    quechua: string;
-    spanish: string;
-  }[];
 }
 
-export type SearchState = "idle" | "loading" | "success" | "error" | "empty";
-
-export interface DictionaryState {
-  query: string;
+export interface SearchResponse {
   results: Word[];
-  state: SearchState;
-  error: string | null;
+  query: string;
+  exactMatch: boolean;
+  exactMatchWord: Word | null;  // ✅ Agregar esta línea
+  total: number;
 }
