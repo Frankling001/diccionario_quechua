@@ -8,15 +8,15 @@ datasource db {
 
 model Word {
   id          Int        @id @default(autoincrement())
-  quechua     String[]   // ✅ Cambiado de String a String[]
-  spanish     String[]   
-  category    Category
-  description String?
+  quechua     String[]   // ✅ Primero (al lado de id)
+  spanish     String[]   // ✅ Segundo
+  description String?    // ✅ Tercero
+  category    Category   // ✅ Cuarto
   examples    Example[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 
-  @@index([quechua])  // Prisma indexa automáticamente arrays
+  @@index([quechua])
   @@index([spanish])
 }
 
