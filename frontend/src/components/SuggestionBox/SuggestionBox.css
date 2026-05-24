@@ -1,142 +1,198 @@
+/* ── SuggestionBox.css ── */
+ 
 .suggestion-box {
-  background: white;
-  border-radius: 16px;
-  padding: 24px;
-  margin-top: 32px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e5e7eb;
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-top: 2rem;
 }
-
-.suggestion-box--success {
-  text-align: center;
-  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-  border-color: #86efac;
+ 
+/* ── Header strip ── */
+.suggestion-box__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.875rem 1.25rem;
+  background: #faf6ee;
+  border-bottom: 1px solid var(--border);
 }
-
+ 
 .suggestion-box__title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #1f2937;
-  margin-bottom: 20px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0;
 }
-
+ 
+.suggestion-box__title-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+ 
+.suggestion-box__hint {
+  font-size: 0.8rem;
+  color: var(--text-hint);
+  margin-left: auto;
+}
+ 
+/* ── Form body ── */
 .suggestion-box__form {
+  padding: 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 1rem;
 }
-
+ 
+.suggestion-box__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+ 
+@media (max-width: 520px) {
+  .suggestion-box__row {
+    grid-template-columns: 1fr;
+  }
+}
+ 
+/* ── Fields ── */
 .suggestion-box__field {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 5px;
 }
-
+ 
 .suggestion-box__field label {
+  font-size: 0.8rem;
   font-weight: 500;
-  color: #374151;
-  font-size: 0.875rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
-
+ 
+.suggestion-box__required {
+  width: 5px;
+  height: 5px;
+  background: var(--brand-accent);
+  border-radius: 50%;
+  display: inline-block;
+}
+ 
 .suggestion-box__field input,
 .suggestion-box__field select,
 .suggestion-box__field textarea {
-  padding: 10px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 0.875rem;
-  font-family: inherit;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  background-color: white;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text-primary);
+  background: var(--surface-card);
+  transition: border-color 0.18s, box-shadow 0.18s;
+  outline: none;
 }
-
+ 
 .suggestion-box__field input:focus,
 .suggestion-box__field select:focus,
 .suggestion-box__field textarea:focus {
-  outline: none;
-  border-color: #8b6914;
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+  border-color: var(--brand-accent);
+  box-shadow: 0 0 0 3px rgba(200, 144, 42, 0.1);
 }
-
+ 
+.suggestion-box__field input::placeholder,
+.suggestion-box__field textarea::placeholder {
+  color: var(--text-hint);
+}
+ 
+.suggestion-box__field select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a08050' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 14px;
+  padding-right: 2rem;
+  cursor: pointer;
+}
+ 
+.suggestion-box__field textarea {
+  resize: vertical;
+  min-height: 72px;
+}
+ 
 .suggestion-box__field small {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: var(--text-hint);
 }
-
+ 
+/* ── Error ── */
 .suggestion-box__error {
-  color: #dc2626;
-  font-size: 0.875rem;
-  padding: 8px 12px;
+  color: #b91c1c;
+  font-size: 0.85rem;
   background: #fef2f2;
-  border-radius: 8px;
+  border: 1px solid #fecaca;
+  border-radius: var(--radius-md);
+  padding: 0.6rem 0.875rem;
   margin: 0;
 }
-
+ 
+/* ── Submit ── */
 .suggestion-box__submit {
-  background: #8b6914;
-  color: white;
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--brand-mid);
+  color: var(--brand-light);
   border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.875rem;
+  border-radius: var(--radius-md);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s;
-  margin-top: 8px;
+  transition: background 0.18s, transform 0.1s;
+  margin-top: 4px;
 }
-
+ 
 .suggestion-box__submit:hover:not(:disabled) {
-  background: #8b6914;
+  background: var(--brand-dark);
 }
-
+ 
+.suggestion-box__submit:active:not(:disabled) {
+  transform: scale(0.99);
+}
+ 
 .suggestion-box__submit:disabled {
-  opacity: 0.6;
+  opacity: 0.55;
   cursor: not-allowed;
 }
-
+ 
+/* ── Success state ── */
+.suggestion-box--success {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+}
+ 
 .suggestion-box__success-message {
   font-size: 1rem;
-  margin-bottom: 16px;
   color: #166534;
+  margin: 0 0 1rem;
+  line-height: 1.5;
 }
-
+ 
 .suggestion-box__add-another {
   background: transparent;
   border: 1px solid #86efac;
   color: #166534;
-  padding: 8px 16px;
-  border-radius: 8px;
-  cursor: pointer;
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--radius-md);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
   font-weight: 500;
-  transition: all 0.2s;
+  cursor: pointer;
+  transition: background 0.18s;
 }
-
+ 
 .suggestion-box__add-another:hover {
-  background: #dcfce7;
+  background: #f0fdf4;
 }
-
-/* Estilos para el select y sus opciones */
-.suggestion-box__field select {
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 16px;
-}
-
-/* Responsive */
-@media (max-width: 640px) {
-  .suggestion-box {
-    padding: 16px;
-  }
-
-  .suggestion-box__title {
-    font-size: 1.125rem;
-  }
-
-  .suggestion-box__field input,
-  .suggestion-box__field select,
-  .suggestion-box__field textarea {
-    font-size: 16px;
-  }
-}
+ 

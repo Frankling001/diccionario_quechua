@@ -58,7 +58,9 @@ export function Admin() {
           Cerrar sesión
         </button>
       </div>
-      <AdminPanel />
+      <div className="admin-page__body">
+        <AdminPanel />
+      </div>
     </div>
   );
 }

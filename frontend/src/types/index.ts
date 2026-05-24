@@ -1,6 +1,5 @@
 // Tipos para el diccionario Quechua
-
-// ✅ Usar objetos const en lugar de enums
+ 
 export const Category = {
   SUSTANTIVO: "SUSTANTIVO",
   VERBO: "VERBO",
@@ -18,24 +17,24 @@ export const Category = {
   EXPRESION: "EXPRESION",
   PARTICULA: "PARTICULA",
 } as const;
-
+ 
 export type Category = typeof Category[keyof typeof Category];
-
+ 
 export const SuggestionStatus = {
   PENDING: "PENDING",
   APPROVED: "APPROVED",
   REJECTED: "REJECTED",
 } as const;
-
+ 
 export type SuggestionStatus = typeof SuggestionStatus[keyof typeof SuggestionStatus];
-
+ 
 export interface Example {
   id: number;
   quechua: string;
   spanish: string;
   wordId: number;
 }
-
+ 
 export interface Word {
   id: number;
   quechua: string[];
@@ -46,18 +45,21 @@ export interface Word {
   createdAt: string;
   updatedAt: string;
 }
-
+ 
 export interface Suggestion {
   id: number;
   quechua: string[];
   spanish: string[];
   description?: string;
+  pronunciation?: string;       // ✅ Nuevo
+  contributorName?: string;     // ✅ Nuevo
+  contributorPlace?: string;    // ✅ Nuevo
   category?: Category;
   status: SuggestionStatus;
   createdAt: string;
   updatedAt: string;
 }
-
+ 
 export interface CreateWordDTO {
   quechua: string | string[];
   spanish: string[];
@@ -65,25 +67,31 @@ export interface CreateWordDTO {
   description?: string;
   examples?: Omit<Example, "id" | "wordId">[];
 }
-
+ 
 export interface CreateSuggestionDTO {
   quechua: string | string[];
   spanish: string[];
   description?: string;
+  pronunciation?: string;       // ✅ Nuevo
+  contributorName?: string;     // ✅ Nuevo
+  contributorPlace?: string;    // ✅ Nuevo
   category?: Category;
 }
-
+ 
 export interface UpdateSuggestionDTO {
   quechua?: string[];
   spanish?: string[];
   description?: string;
+  pronunciation?: string;       // ✅ Nuevo
+  contributorName?: string;     // ✅ Nuevo
+  contributorPlace?: string;    // ✅ Nuevo
   category?: Category;
 }
-
+ 
 export interface SearchResponse {
   results: Word[];
   query: string;
   exactMatch: boolean;
-  exactMatchWord: Word | null;  // ✅ Agregar esta línea
+  exactMatchWord: Word | null;
   total: number;
 }

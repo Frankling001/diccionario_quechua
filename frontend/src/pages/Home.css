@@ -1,58 +1,149 @@
-.home {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem;
+/* ── Home.css ── */
+ 
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600&family=DM+Sans:wght@400;500&display=swap');
+ 
+:root {
+  --brand-dark:    #1e1208;
+  --brand-mid:     #7a5c1e;
+  --brand-accent:  #c8902a;
+  --brand-light:   #f5ecd7;
+  --brand-muted:   #a08050;
+  --surface:       #faf8f4;
+  --surface-card:  #ffffff;
+  --border:        #e8dcc8;
+  --text-primary:  #1e1208;
+  --text-secondary:#6b5040;
+  --text-hint:     #a08050;
+  --radius-md:     10px;
+  --radius-lg:     16px;
+  --radius-xl:     24px;
 }
-
+ 
+*, *::before, *::after { box-sizing: border-box; }
+ 
+body {
+  background: var(--surface);
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+ 
+/* ── Layout ── */
+.home {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+ 
+/* ── Header ── */
 .home__header {
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
+  position: relative;
+  /* Espacio a la izquierda para que el logo no tape el título */
+  padding-left: 0;
 }
-
+ 
+/* Logo — anclado al borde izquierdo del home, fuera del flujo */
+.home__logo {
+  position: absolute;
+  top: 50%;
+  left: -1.5rem;          /* sale hasta el borde del padding del .home */
+  transform: translateY(-50%);
+  width: 100px;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+}
+ 
 .home__title {
-  font-size: 2rem;
-  color: #2d1810;
-  margin: 0 0 0.5rem 0;
-  font-weight: 700;
+  font-family: 'Fraunces', serif;
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: var(--brand-dark);
+  margin: 0 0 0.4rem;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
 }
-
+ 
 .home__subtitle {
-  color: #6b5b4f;
-  font-size: 1.1rem;
+  color: var(--text-hint);
+  font-size: 0.95rem;
   margin: 0;
 }
-
-.home__content {
-  margin-top: 1.5rem;
+ 
+/* ── Móvil: logo centrado arriba del título ── */
+@media (max-width: 640px) {
+  .home__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding-left: 0;
+  }
+ 
+  .home__logo {
+    position: static;
+    transform: none;
+    width: 80px;
+  }
+ 
+  .home__title {
+    font-size: 1.7rem;
+  }
+ 
+  .home__subtitle {
+    font-size: 0.85rem;
+    padding: 0 0.5rem;
+  }
 }
-
+ 
+/* ── Content ── */
+.home__content {
+  margin-top: 1rem;
+}
+ 
 .home__loading {
   text-align: center;
-  padding: 2rem;
-  color: #6b5b4f;
-  font-size: 1.1rem;
+  padding: 3rem 2rem;
+  color: var(--text-hint);
+  font-size: 0.95rem;
 }
-
-.home__results {
-  margin-bottom: 0.5rem;
+ 
+.home__loading::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--border);
+  border-top-color: var(--brand-accent);
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  animation: spin 0.8s linear infinite;
 }
+ 
+@keyframes spin { to { transform: rotate(360deg); } }
+ 
+/* ── Warning ── */
 .home__no-exact-match-warning {
-  background-color: #fff3cd;
-  border-left: 4px solid #ffc107;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  border-radius: 0.5rem;
+  background: #fffbeb;
+  border-left: 3px solid var(--brand-accent);
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
 }
-
+ 
 .home__warning-message {
-  color: #856404;
+  color: #78520a;
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
-
+ 
+/* ── Results ── */
 .home__results {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
   margin-bottom: 2rem;
 }

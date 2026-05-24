@@ -1,26 +1,33 @@
+/* ── EmptyState.css ── */
+ 
 .empty-state {
   text-align: center;
-  padding: 3rem 1.5rem;
-  background: #fafaf8;
-  border-radius: 12px;
-  border: 2px dashed #e0d5c1;
-  margin: 2rem 0;
+  padding: 3rem 2rem;
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 1.5rem;
 }
-
+ 
 .empty-state__icon {
-  font-size: 3rem;
+  font-size: 2.5rem;
   margin-bottom: 1rem;
+  line-height: 1;
 }
-
+ 
 .empty-state__title {
-  font-size: 1.4rem;
-  color: #4a3728;
-  margin-bottom: 0.75rem;
+  font-family: 'Fraunces', serif;
+  font-size: 1.2rem;
   font-weight: 600;
+  color: var(--brand-dark);
+  margin: 0 0 0.5rem;
 }
-
+ 
 .empty-state__message {
-  color: #6b5b4f;
-  font-size: 1rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
   line-height: 1.6;
+  margin: 0;
+  max-width: 340px;
+  margin-inline: auto;
 }
